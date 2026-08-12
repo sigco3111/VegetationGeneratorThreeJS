@@ -6,6 +6,7 @@ import { IvyPlant, defaultIvySettings, type IvySettings, type SurfaceSample } fr
 import { TreePlant, defaultTreeSettings, type TreeSettings } from './tree';
 import { SurfacePainter } from './surfacePainter';
 import { buildGui } from './ui';
+import { t } from './i18n';
 
 export type ModelKind = 'Sphere' | 'Torus Knot' | 'Box' | 'Cylinder';
 export type Generator = 'Ivy' | 'Tree';
@@ -59,14 +60,16 @@ export class App {
   private modelGrounded = false; // GLBs rest on the ground; primitives stay centered
   private hud = document.getElementById('hud')!;
   private lastTime = 0;
-  private hovering = false;
   private toastTimer = 0;
+  private hovering = false;
   /** Tree mode: brushing the pointer over limbs or foliage pushes them (toggled with D). */
   private interactMode = true;
   /** Ivy mode: hover the F-brush over the vines to bloom their flowers. */
   private flowerMode = false;
   private branchMarker!: THREE.Mesh;
   private flowerMarker!: THREE.Mesh;
+  // Forward i18n keys through a tiny class method so they read naturally at call sites.
+  private t(key: string): string { return t(key); }
   private lastPX = 0;
   private lastPY = 0;
   private branchRay = firstHitOnly(new THREE.Raycaster());
@@ -532,9 +535,9 @@ export class App {
 
     const btn = document.getElementById('modeBtn')!;
     btn.querySelector('.label')!.textContent =
-      draw ? 'Draw mode'
-        : flower ? (g === 'Tree' ? 'Fig brush' : 'Flower brush')
-          : interact ? 'Interact mode' : 'Orbit mode';
+      draw ? this.t('modeDraw')
+        : flower ? (g === 'Tree' ? this.t('modeFig') : this.t('modeFlower'))
+          : interact ? this.t('modeInteract') : this.t('modeOrbit');
     const key = btn.querySelector('.key') as HTMLElement;
     key.textContent = flower ? 'F' : 'D';
     key.style.display = draw || flower || interact ? '' : 'none'; // plain "Orbit mode" when idle
@@ -555,25 +558,20 @@ export class App {
     let mode: string;
     if (this.settings.generator === 'Tree') {
       mode = this.flowerMode
-        ? '<b>Fig brush</b> — hover the twigs and watch the green figs swell and ripen red. ' +
-          'Drag to orbit as usual. Press <b>F</b> to put the brush away.'
+        ? this.t('hudFig')
         : this.interactMode
-          ? '<b>Interact mode</b> — sweep the cursor through branches or leaves to brush them aside; ' +
-            'they spring back behind you. Drag to orbit as usual. Press <b>D</b> to switch off, <b>F</b> to ripen figs.'
-          : '<b>Orbit mode</b> — drag to rotate, scroll to zoom. Press <b>D</b> to brush the tree around, ' +
-            '<b>F</b> to ripen its figs. <b>▶ Redraw</b> replays the growth.';
+          ? this.t('hudInteract')
+          : this.t('hudTreeOrbit');
     } else if (this.flowerMode) {
-      mode = '<b>Flower brush</b> — hover over the ivy and watch the buds pop into bloom. ' +
-        'Drag to orbit as usual. Press <b>F</b> to put the brush away.';
+      mode = this.t('hudFlower');
     } else if (this.settings.drawMode) {
       mode = this.hovering
-        ? '<b>Drag now</b> to paint an ivy path along the surface — it grows when you let go.'
-        : 'Move over the model, then <b>drag</b> to paint an ivy path. Press <b>D</b> to orbit, <b>F</b> to bloom flowers.';
+        ? this.t('hudDrawHovering')
+        : this.t('hudDrawIdle');
     } else {
-      mode = '<b>Orbit mode</b> — drag to rotate, scroll to zoom, right-drag to pan. ' +
-        'Press <b>D</b> to draw ivy, <b>F</b> to bloom its flowers.';
+      mode = this.t('hudOrbit');
     }
-    this.hud.innerHTML = `${mode}<div class="sub">Renderer: ${backend}</div>`;
+    this.hud.innerHTML = `${mode}<div class="sub">${this.t('hudRenderer')}: ${backend}</div>`;
   }
 
   private showToast(msg: string): void {
