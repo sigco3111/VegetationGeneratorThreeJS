@@ -1,4 +1,4 @@
-# 🌿 VegetationGeneratorThreeJS — 식물 생성기 (한국어 한글판)
+# 🌿 VegetationGeneratorThreeJS — 식물 생성기
 
 **Three.js WebGPU** 기반의 **대화형 식물 생성기** 입니다. 표면에 아이비 경로를 그리거나 반얀 트리를 키울 수 있는 풀 시뮬레이션 스튜디오로, 자동 WebGL2 폴백을 포함합니다.
 
