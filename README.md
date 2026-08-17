@@ -9,7 +9,6 @@
 | 항목 | URL |
 |---|---|
 | 🌐 **라이브 데모** | **<https://sigco3111.github.io/VegetationGeneratorThreeJS>** |
-| 📦 **이 저장소 (한국어 fork)** | <https://github.com/sigco3111/VegetationGeneratorThreeJS> |
 | ⭐ **원본 저장소 (출처)** | <https://github.com/achrefelouafi/VegetationGeneratorThreeJS> |
 
 > 본 저장소는 [achrefelouafi/VegetationGeneratorThreeJS](https://github.com/achrefelouafi/VegetationGeneratorThreeJS) 의 **한국어 fork** 입니다. 원본의 모든 핵심 코드(WebGPU 렌더러 + 표면 페인터 + 절차적 아이비/트리 + 시뮬레이션)와 라이선스(MIT)를 그대로 보존하면서 사용자 인터페이스만 한글로 번역·개선했습니다.
