@@ -4,6 +4,10 @@
 
 ---
 
+## 📸 실제 실행 화면
+
+![식물 생성기 실제 화면](6-VegetationGeneratorThreeJS.jpg)
+
 ## 🔗 링크
 
 | 항목 | URL |
